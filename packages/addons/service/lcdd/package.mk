@@ -57,6 +57,9 @@ addon() {
       -e "s|^#GoodBye=\"Thanks for using\"|GoodBye=\"Thanks for using\"|" \
       -e "s|^#GoodBye=\"   LCDproc!\"|GoodBye=\"$DISTRONAME\"|" \
       -e "s|^#normal_font=.*$|normal_font=/usr/share/fonts/liberation/LiberationMono-Bold.ttf|" \
+      -e "s|^#OnExit=.*$|OnExit=2|" \
+      -e "s|^#Size=96x16$|Size=96x16|" \
+      -e "s|^#DiscMode=.*$|DiscMode=0|" \
       -i $ADDON_BUILD/$PKG_ADDON_ID/config/LCDd.conf
 
   sed -e "s/@DRIVERS@/$drivers/" \
