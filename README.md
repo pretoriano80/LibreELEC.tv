@@ -4,7 +4,7 @@
 
 - If you build for generic x86_64 architecture ,then you can use the "imon_generic_build.sh" script
 - Use LibreELEC.USB-SD.Creator to burn the image 
-- After LibreELEC first run,go to Kodi - My Addons - Service ,open LCDd settings and then click OK.At this point  you imon LCD should diplay "Welcome to LibreELEC" message
+- On LibreELEC's first boot,after kodi was loaded, your imon LCD should diplay the "Welcome to LibreELEC" message
 - Install the XBMCproc addon and set it up,done....
 
 

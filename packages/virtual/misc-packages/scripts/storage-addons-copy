@@ -9,3 +9,8 @@ if [ ! -d /storage/.kodi/addons/service.lcdd ]; then
   unzip -o -qq -d /storage/.kodi/addons \
     /usr/share/kodi/storage_addons/*.zip
 fi
+
+if [ ! -d /storage/.kodi/userdata/addon_data/service.lcdd/settings.xml ]; then
+  mkdir -p /storage/.kodi/userdata/addon_data/service.lcdd
+  cp /usr/share/kodi/storage_addons/settings.xml /storage/.kodi/userdata/addon_data/service.lcdd/
+fi

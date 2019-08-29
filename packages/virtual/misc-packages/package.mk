@@ -19,6 +19,8 @@ post_install() {
   mkdir -p $INSTALL/usr/config/sleep.d
   cp -PR $PKG_DIR/sleep.d/* $INSTALL/usr/config/sleep.d
   cp -PR $PKG_DIR/modprobe.d/* $INSTALL/usr/config/modprobe.d
+  cp -PR $PKG_DIR/settings.xml $INSTALL/usr/share/kodi/storage_addons
+  
  
   enable_service storage-addons-copy.service
   enable_service service.lcdd.service

@@ -1,0 +1,3 @@
+<settings version="2">
+    <setting id="LCD_DRIVER" default="true">imonlcd</setting>
+</settings>
