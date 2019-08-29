@@ -1,3 +1,13 @@
+# LibreELEC for Imon LCD (Imon Ultrabay - iMON device (15c2:ffdc, intf0) )
+
+# Usage
+
+- If you build for generic x86_64 architecture ,then you can use the "imon_generic_build.sh" script
+- Use LibreELEC.USB-SD.Creator to burn the image 
+- After LibreELEC first run,go to Kodi - My Addons - Service ,open LCDd settings and then click OK.At this point  you imon LCD should diplay "Welcome to LibreELEC" message
+- Install the XBMCproc addon and set it up,done....
+
+
 # LibreELEC
 
 LibreELEC is a 'Just enough OS' Linux distribution for running the award-winning [Kodi](https://kodi.tv) software on popular mediacentre hardware. LibreELEC is a conservative fork of the popular [OpenELEC](http://openelec.tv) project with a stronger focus on pre-release testing and post-release change management. Further information on the project can be found on the [LibreELEC website](https://libreelec.tv).
