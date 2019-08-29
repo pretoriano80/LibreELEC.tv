@@ -1,0 +1,13 @@
+ [Unit]
+Description=Kodi storage addons copy script
+Before=kodi.service
+After=network-online.target graphical.target
+
+[Service]
+Type=oneshot
+Environment=HOME=/storage
+ExecStart=-/bin/sh -c ". /etc/profile; exec /bin/sh /usr/lib/libreelec/storage-addons-copy"
+RemainAfterExit=yes
+
+[Install]
+WantedBy=kodi.service
