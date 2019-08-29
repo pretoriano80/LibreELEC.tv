@@ -1,9 +1,0 @@
-#!/bin/sh
-case "$1" in
-   pre)
-     systemctl stop service.lcdd
-     ;;
-   post)
-     systemctl start service.lcdd
-     ;;
-esac
