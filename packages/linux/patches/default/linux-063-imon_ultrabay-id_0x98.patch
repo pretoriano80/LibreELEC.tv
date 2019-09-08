@@ -1,0 +1,75 @@
+--- linux-5.2.6/drivers/media/rc/imon.c	2019-09-04 12:13:45.874039340 +0300
++++ linux-5.2.6/drivers/media/rc/imon.c.patch	2019-09-04 12:38:07.576842638 +0300
+@@ -83,6 +83,7 @@
+ 	__u16 flags;
+ #define IMON_NO_FLAGS 0
+ #define IMON_NEED_20MS_PKT_DELAY 1
++#define IMON_SUPPRESS_REPEATED_KEYS 2
+ 	struct imon_panel_key_table key_table[];
+ };
+ 
+@@ -315,6 +316,32 @@
+ 	}
+ };
+ 
++/* imon ultrabay front panel key table */
++static const struct imon_usb_dev_descr imon_ultrabay_table = {
++	.flags = IMON_SUPPRESS_REPEATED_KEYS,
++	.key_table = {
++		{ 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
++		{ 0x000000000100ffeell, KEY_UP },
++		{ 0x000000000001ffeell, KEY_DOWN },
++		{ 0x000000160000ffeell, KEY_ENTER },
++		{ 0x0000001f0000ffeell, KEY_AUDIO },      /* Music */
++		{ 0x000000200000ffeell, KEY_VIDEO },      /* Movie */
++		{ 0x000000210000ffeell, KEY_CAMERA },     /* Photo */
++		{ 0x000000270000ffeell, KEY_DVD },        /* DVD */
++		{ 0x000000230000ffeell, KEY_TV },         /* TV */
++		{ 0x000000050000ffeell, KEY_PREVIOUS },   /* Previous */
++		{ 0x000000070000ffeell, KEY_REWIND },
++		{ 0x000000040000ffeell, KEY_STOP },
++		{ 0x000000020000ffeell, KEY_PLAYPAUSE },
++		{ 0x000000080000ffeell, KEY_FASTFORWARD },
++		{ 0x000000060000ffeell, KEY_NEXT },       /* Next */
++		{ 0x000100000000ffeell, KEY_VOLUMEUP },
++		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
++		{ 0x000000010000ffeell, KEY_MUTE },
++		{ 0, KEY_RESERVED },
++	}
++ };
++
+ /*
+  * USB Device ID for iMON USB Control Boards
+  *
+@@ -1672,6 +1699,17 @@
+ 			return;
+ 		}
+ 	}
++	 /* KEY repeats from knob need to be suppressed */
++    if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
++		if (ictx->kc == ictx->last_keycode) {
++			msec = ktime_ms_delta(t, prev_time);
++			if (msec < ictx->idev->rep[REP_DELAY]) {
++				spin_unlock_irqrestore(&ictx->kc_lock, flags);
++				return;
++			}
++		}
++	}
++
+ 	prev_time = t;
+ 	kc = ictx->kc;
+ 
+@@ -1854,6 +1892,13 @@
+ 		dev_info(ictx->dev, "0xffdc iMON Inside, iMON IR");
+ 		ictx->display_supported = false;
+ 		break;
++	case 0x98:
++		dev_info(ictx->dev, "0xffdc iMON UltraBay, LCD + IR");
++		detected_display_type = IMON_DISPLAY_TYPE_LCD;
++		allowed_protos = RC_PROTO_BIT_IMON | RC_PROTO_BIT_RC6_MCE;
++		ictx->dev_descr = (struct imon_usb_dev_descr *) &imon_ultrabay_table;
++		break;
++
+ 	default:
+ 		dev_info(ictx->dev, "Unknown 0xffdc device, defaulting to VFD and iMON IR");
+ 		detected_display_type = IMON_DISPLAY_TYPE_VFD;
