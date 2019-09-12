@@ -15,9 +15,3 @@ PKG_TOOLCHAIN="autotools"
 PKG_CONFIGURE_OPTS_TARGET="--disable-silent-rules \
                            --with-xorg-module-dir=$XORG_PATH_MODULES \
                            --with-gnu-ld"
-
-post_install() {
-
-mkdir -p $INSTALL/usr/config
-cp -PR $PKG_DIR/config/xorg.conf $INSTALL/usr/config
-}
