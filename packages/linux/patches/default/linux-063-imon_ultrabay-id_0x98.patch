@@ -4,7 +4,7 @@
  	__u16 flags;
  #define IMON_NO_FLAGS 0
  #define IMON_NEED_20MS_PKT_DELAY 1
-+#define IMON_SUPPRESS_REPEATED_KEYS 2
++#define IMON_SUPPRESS_REPEATED_ENTER 2
  	struct imon_panel_key_table key_table[];
  };
  
@@ -14,7 +14,7 @@
  
 +/* imon ultrabay front panel key table */
 +static const struct imon_usb_dev_descr imon_ultrabay_table = {
-+	.flags = IMON_SUPPRESS_REPEATED_KEYS,
++	.flags = IMON_SUPPRESS_REPEATED_ENTER,
 +	.key_table = {
 +		{ 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
 +		{ 0x000000000100ffeell, KEY_UP },
@@ -46,8 +46,8 @@
  		}
  	}
 +	 /* KEY repeats from knob need to be suppressed */
-+    if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
-+		if (ictx->kc == ictx->last_keycode) {
++    if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_ENTER) {
++		if (ictx->kc == KEY_ENTER && ictx->kc == ictx->last_keycode) {
 +			msec = ktime_ms_delta(t, prev_time);
 +			if (msec < ictx->idev->rep[REP_DELAY]) {
 +				spin_unlock_irqrestore(&ictx->kc_lock, flags);
