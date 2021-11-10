@@ -18,6 +18,10 @@ PKG_TOOLCHAIN="manual"
 
 PKG_IS_KERNEL_PKG="yes"
 
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+fi
+
 unpack() {
   [ -d ${PKG_BUILD} ] && rm -rf ${PKG_BUILD}
 
