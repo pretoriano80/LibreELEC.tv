@@ -5,7 +5,7 @@
   OPENGLES="no"
 
 # Vulkan implementation to use (vulkan-loader / no)
-    VULKAN="vulkan-loader"
+  VULKAN="vulkan-loader"
 
 # Displayserver to use (weston / x11 / no)
   DISPLAYSERVER="x11"
