@@ -82,8 +82,8 @@ else
 fi
 
 if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-  PKG_DEPENDS_TARGET+=" vulkan-loader"
-  PKG_MESON_OPTS_TARGET+=" -Dvulkan-drivers=amd,intel"
+  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  PKG_MESON_OPTS_TARGET+=" -Dvulkan-drivers=${VULKAN_DRIVERS_MESA// /,}"
 else
   PKG_MESON_OPTS_TARGET+=" -Dvulkan-drivers="
 fi
