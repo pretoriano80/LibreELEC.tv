@@ -6,8 +6,8 @@ PKG_NAME="xf86-video-nvidia"
 # Remember to run "python3 packages/x11/driver/xf86-video-nvidia/scripts/make_nvidia_udev.py" and commit
 # changes to "packages/x11/driver/xf86-video-nvidia/udev.d/96-nvidia.rules" whenever bumping version.
 # The build host may require installation of python3-lxml and python3-requests packages.
-PKG_VERSION="460.91.03"
-PKG_SHA256="448156cfcef182ed6997c2754c472fd681bf7139b821d2adce1d847220c6c933"
+PKG_VERSION="470.86"
+PKG_SHA256="15f003a831362ca1637c9ed02a965f42e3856b4faafb844e027d84272b3ffb99"
 PKG_ARCH="x86_64"
 PKG_LICENSE="nonfree"
 PKG_SITE="https://www.nvidia.com/en-us/drivers/unix/"
@@ -51,9 +51,10 @@ makeinstall_target() {
 
   mkdir -p ${INSTALL}/usr/lib
     cp -P libnvidia-glcore.so.${PKG_VERSION} ${INSTALL}/usr/lib
+    cp -P libnvidia-glsi.so.${PKG_VERSION} ${INSTALL}/usr/lib
+    cp -P libnvidia-tls.so.${PKG_VERSION} ${INSTALL}/usr/lib
     cp -P libnvidia-ml.so.${PKG_VERSION} ${INSTALL}/usr/lib
     ln -sf /var/lib/libnvidia-ml.so.1 ${INSTALL}/usr/lib/libnvidia-ml.so.1
-    cp -P libnvidia-tls.so.${PKG_VERSION} ${INSTALL}/usr/lib
     cp -P libGLX_nvidia.so.${PKG_VERSION} ${INSTALL}/usr/lib/libGLX_nvidia.so.0
 
   mkdir -p ${INSTALL}/$(get_full_module_dir)/nvidia
@@ -78,11 +79,14 @@ makeinstall_target() {
   # Install Vulkan ICD & SPIR-V lib
   if [ "${VULKAN_SUPPORT}" = "yes" ]; then
     cp -P libnvidia-glvkspirv.so.${PKG_VERSION} ${INSTALL}/usr/lib 
+    # Vulkan ICD configuration
     mkdir -p ${INSTALL}/usr/share/vulkan/icd.d
+    mkdir -p ${INSTALL}/usr/share/vulkan/implicit_layer.d
+      cp nvidia_layers.json ${INSTALL}/usr/share/vulkan/implicit_layer.d
     if [ -f nvidia_icd.json.template ]; then
       sed "s#__NV_VK_ICD__#/usr/lib/libGLX_nvidia.so.0#" nvidia_icd.json.template > ${INSTALL}/usr/share/vulkan/icd.d/nvidia_icd.json
     elif [ -f nvidia_icd.json ]; then
-      cp -P nvidia_icd.json ${INSTALL}/usr/share/vulkan/icd.d/
+      sed "s#libGLX_nvidia.so.0#/usr/lib/libGLX_nvidia.so.0#" nvidia_icd.json > ${INSTALL}/usr/share/vulkan/icd.d/nvidia_icd.json
     fi
   fi
 }
