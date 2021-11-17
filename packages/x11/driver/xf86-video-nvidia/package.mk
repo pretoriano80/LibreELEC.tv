@@ -19,7 +19,7 @@ PKG_TOOLCHAIN="manual"
 PKG_IS_KERNEL_PKG="yes"
 
 if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+  PKG_DEPENDS_TARGET+=" ${VULKAN} vulkan-tools"
 fi
 
 unpack() {
