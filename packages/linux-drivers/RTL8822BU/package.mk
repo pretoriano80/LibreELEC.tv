@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="RTL8822BU"
-PKG_VERSION="f033b6fa139103a49c17cccee298593fb849f8c1"
-PKG_SHA256="7f7a9405e68591c3c9ad205b862bc3891c02cca2f19ba25763a2ca9bdb0f170b"
+PKG_VERSION="f9f62acd0627f6b2d2458fb857178836f2213d31"
+PKG_SHA256="ef3c7a74c2a20d292f463b3278a26e209d36d7cb6a8a973a7d6914cb4abe17bd"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/pretoriano80/88x2bu-20210702"
 PKG_URL="https://github.com/pretoriano80/88x2bu-20210702/archive/$PKG_VERSION.tar.gz"
