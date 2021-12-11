@@ -1,0 +1,16 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2019-present Team LibreELEC (https://libreelec.tv)
+
+# how could we check if addon is enabled in Kodi ?
+# if disabled don't unpack anymore
+
+if [ ! -d /storage/.kodi/addons/service.lcdd ]; then
+  unzip -o -qq -d /storage/.kodi/addons \
+    /usr/share/kodi/storage_addons/*.zip
+fi
+
+if [ ! -d /storage/.kodi/userdata/addon_data/service.lcdd/settings.xml ]; then
+  mkdir -p /storage/.kodi/userdata/addon_data/service.lcdd
+  cp /usr/share/kodi/storage_addons/settings.xml /storage/.kodi/userdata/addon_data/service.lcdd/
+fi
