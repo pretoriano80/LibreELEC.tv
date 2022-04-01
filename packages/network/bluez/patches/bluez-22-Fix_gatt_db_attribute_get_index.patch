@@ -1,0 +1,22 @@
+diff --git a/src/shared/gatt-db.c b/src/shared/gatt-db.c
+index be07cdbe4..73da20942 100644
+--- a/src/shared/gatt-db.c
++++ b/src/shared/gatt-db.c
+@@ -1537,12 +1537,12 @@ static int gatt_db_attribute_get_index(struct gatt_db_attribute *attrib)
+ 		return -1;
+ 
+ 	service = attrib->service;
+-	index = attrib->handle - service->attributes[0]->handle;
+-
+-	if (index > (service->num_handles - 1))
+-		return -1;
++	for (index = 0; index < service->num_handles; index++) {
++		   if (service->attributes[index] == attrib)
++			   return index;
++	}
+ 
+-	return index;
++	return -1;
+ }
+ 
+ static struct gatt_db_attribute *
